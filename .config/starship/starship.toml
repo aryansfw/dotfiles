@@ -1,0 +1,49 @@
+format = """
+┌[](background3)\
+$username\
+[](bg:background2 background3)\
+$directory\
+[](bg:background1 background2)\
+$git_branch\
+$git_status\
+[](bg:background0 background1)\
+$time\
+[](background0)
+└─▶ """
+
+palette = "purple_gradient"
+
+[username]
+show_always = true
+format = "[  $user ](bg:background3 foreground7)"
+
+[directory]
+truncation_length = 1
+format = "[   $path ](bg:background2 foreground6)"
+
+[git_branch]
+symbol = ""
+format = "[ $symbol $branch ](bg:background1 foreground5)"
+
+[git_status]
+format = "[$all_status$ahead_behind ](bg:background1 foreground5)"
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+format = '[  $time ](bg:background0 foreground4)'
+
+[cmd_duration]
+min_time = 0
+show_milliseconds = true
+format = " 󱎫 $duration"
+
+[palettes.purple_gradient]
+background0 = "#babbf1"
+background1 = "#a5a6ed"
+background2 = "#9091e8"
+background3 = "#7a7ce4"
+foreground4 = "#6B6CA9"
+foreground5 = "#5c5d9e"
+foreground6 = "#53548e"
+foreground7 = "#494a7e"
