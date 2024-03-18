@@ -35,7 +35,9 @@ map("i", "jj", "<Esc>", "Enter insert mode with jj")
 map("n", "<leader>ff", ":Telescope find_files<CR>", "Telescope find files") -- Find files
 map("n", "<leader>fa", ":Telescope find_files follow=true no_ignore=true hidden=true<CR>", "Telescope find all")
 map("n", "<leader>fb", ":Telescope buffers<CR>", "Telescope buffers")
-map("n", "<leader>fg", ":Telescope live_grep<CR>", "Telescope live grep")
+map("n", "<leader>fl", ":Telescope live_grep<CR>", "Telescope live grep")
+map("n", "<leader>fgs", ":Telescope git_status<CR>", "Telescope git status")
+map("n", "<leader>fgb", ":Telescope git_branches<CR>", "Telescope git branch")
 map("n", "<leader>fr", function()
 	require("telescope.builtin").oldfiles({ only_cwd = true })
 end, "Telescope recent files")
@@ -45,9 +47,6 @@ map("n", "-", ":Oil<CR>", "Open parent directory")
 
 -- markdown-preview --
 map("n", "<leader>pp", ":MarkdownPreview<CR>", "See markdown preview")
-
--- lazygit --
-map("n", "<leader>gg", ":LazyGit<CR>", "Open lazy git ui")
 
 -- which-key --
 map("n", "<leader>wK", function()

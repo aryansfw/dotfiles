@@ -126,10 +126,94 @@ export PATH=$HOME/development/android_sdk/emulator:$PATH
 export PATH=$HOME/development/android_sdk/platform-tools:$PATH
 export ADB_SERVER_SOCKET=tcp:$(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2):5037
 
+# Fzf
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284 \
+--color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
+--color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284"
+
+function find_workspace() {
+  if tmux list-sessions &>/dev/null; then
+    TMUX_RUNNING=0
+  else
+    TMUX_RUNNING=1
+  fi
+
+  T_RUNTYPE="serverless"
+  if [ "$TMUX_RUNNING" -eq 0 ]; then
+    if [ "$TMUX" ]; then # inside tmux
+      T_RUNTYPE="attached"
+    else # outside tmux
+      T_RUNTYPE="detached"
+    fi
+  fi
+
+  NEW_BIND="ctrl-a:reload(fd --type d --hidden . $HOME | sed -e \"s|$HOME/||g\")"
+  ZOXIDE_BIND="ctrl-s:reload(zoxide query -l | sed -e \"s|$HOME/||g\")"
+  DIRECTORY=$(
+    zoxide query -l | sed -e "s|$HOME/||g" | fzf \
+    --layout=reverse \
+    --border \
+    --border-label=" Find Workspace " \
+    --margin=1 \
+    --info=inline-right \
+    --header="omg you're actually gonna start working? ^a all ^s zoxide" \
+    --color "border:#ca9ee6,label:#ca9ee6" \
+    --bind "$NEW_BIND" \
+    --bind "$ZOXIDE_BIND" \
+  )
+
+  if [ ! -z $DIRECTORY ]; then
+    DIRECTORY=$(echo "$HOME/$DIRECTORY")
+    echo $DIRECTORY
+    zoxide add "$DIRECTORY" &>/dev/null
+
+    SESSION=$(basename "$DIRECTORY" | tr ' .:' '_')
+    tmux new-session -d -A -s "$SESSION" -c "$DIRECTORY"
+    case $T_RUNTYPE in # attach to session
+      attached)
+        tmux switch-client -t "$SESSION"
+        ;;
+      detached | serverless)
+        tmux attach -t "$SESSION"
+        ;;
+    esac 
+  fi
+}
+
+function go_to_folder() {
+  NEW_BIND="ctrl-a:reload(fd --type d ---hidden . $HOME | sed -e \"s|$HOME/||g\")"
+  ZOXIDE_BIND="ctrl-s:reload(zoxide query -l | sed -e \"s|$HOME/||g\")"
+  DIRECTORY=$(
+    zoxide query -l | sed -e "s|$HOME/||g" | fzf \
+    --layout=reverse \
+    --border \
+    --border-label=" cd " \
+    --margin=1 \
+    --info=inline-right \
+    --header="go to directory. ^a all ^s zoxide" \
+    --color "border:#ca9ee6,label:#ca9ee6" \
+    --bind "$NEW_BIND" \
+    --bind "$ZOXIDE_BIND" \
+  )
+
+  if [ ! -z $DIRECTORY ]; then
+    DIRECTORY=$(echo "$HOME/$DIRECTORY")
+    z $DIRECTORY
+  fi
+}
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # Aliases
 alias vim=nvim
+alias v="nvim ."
+alias w=find_workspace
+alias g=go_to_folder
+alias cd=z
 
 # Starship
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 eval "$(starship init bash)"
 
+# Zoxide
+eval "$(zoxide init bash)"
