@@ -15,7 +15,7 @@ return {
 		})
 		require("mason-lspconfig").setup({
 			ensure_installed = {
-				"tsserver",
+				"ts_ls",
 			},
 			automatic_installation = true,
 		})

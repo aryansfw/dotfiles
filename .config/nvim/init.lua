@@ -29,3 +29,5 @@ require("lazy").setup("aryan.plugins", {
 		},
 	},
 })
+
+vim.cmd("colorscheme catppuccin")

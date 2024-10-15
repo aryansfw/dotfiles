@@ -58,6 +58,11 @@ return {
 						background = true,
 					},
 				},
+				indent_blankline = {
+					enabled = true,
+					scope_color = "lavender",
+					colored_indent_levels = false,
+				},
 				which_key = true,
 			},
 			custom_highlights = function(colors)
@@ -67,6 +72,5 @@ return {
 				}
 			end,
 		})
-		vim.cmd.colorscheme("catppuccin")
 	end,
 }

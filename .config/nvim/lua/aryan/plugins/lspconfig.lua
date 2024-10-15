@@ -32,7 +32,7 @@ return {
 		})
 
 		---- typescript ----
-		lspconfig.tsserver.setup({
+		lspconfig.ts_ls.setup({
 			on_attach = on_attach,
 			capabilities = capabilities,
 			filetypes = {
@@ -82,6 +82,21 @@ return {
 			filetypes = {
 				"python",
 			},
+		})
+
+		---- dart ----
+		lspconfig.dartls.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+			filetypes = {
+				"dart",
+			},
+		})
+
+		---- rust ----
+		lspconfig.rust_analyzer.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
 		})
 	end,
 }

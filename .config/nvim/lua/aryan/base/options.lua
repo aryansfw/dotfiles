@@ -47,3 +47,6 @@ o.whichwrap = "bs<>[]hl"
 o.mouse = "a"
 o.swapfile = false
 o.wrap = true
+
+-- Colorscheme
+vim.o.background = "dark"

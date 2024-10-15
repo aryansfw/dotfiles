@@ -119,18 +119,61 @@ fi
 # Path
 export PATH="$PATH:/opt/mssql-tools18/bin"
 export PATH="$PATH:$HOME/development/flutter/bin"
+export SONAR_SCANNER_HOME=/home/yan/development/sonar-scanner-6.0.0.4432-linux
+export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+
+# ZAP
+export ZAP_PORT=8090
+export ZAP_PATH=/home/yan/development/ZAP_2.15.0
+export ZAP_API_KEY=12345
+
+# NVIDIA_DIR=$(dirname $(dirname $(python3 -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)")))
+# for dir in $NVIDIA_DIR/*; do
+#     if [ -d "$dir/lib" ]; then
+#         export LD_LIBRARY_PATH="$dir/lib:$LD_LIBRARY_PATH"
+#     fi
+# done
 
 # Android
 export PATH=$HOME/development/android_sdk/cmdline-tools/latest/bin:$PATH
 export PATH=$HOME/development/android_sdk/emulator:$PATH
 export PATH=$HOME/development/android_sdk/platform-tools:$PATH
-export ADB_SERVER_SOCKET=tcp:$(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2):5037
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+# export ADB_SERVER_SOCKET=tcp:$(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2):5037
 
 # Fzf
-export FZF_DEFAULT_OPTS=" \
---color=bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284 \
---color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
---color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284"
+# export FZF_DEFAULT_OPTS=" \
+# --color=bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284 \
+# --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
+# --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284"
+#
+_gen_fzf_default_opts() {
+
+  local color00='#32302f'
+  local color01='#3c3836'
+  local color02='#504945'
+  local color03='#665c54'
+  local color04='#bdae93'
+  local color05='#d5c4a1'
+  local color06='#ebdbb2'
+  local color07='#fbf1c7'
+  local color08='#fb4934'
+  local color09='#fe8019'
+  local color0A='#fabd2f'
+  local color0B='#b8bb26'
+  local color0C='#8ec07c'
+  local color0D='#83a598'
+  local color0E='#d3869b'
+  local color0F='#d65d0e'
+
+  export FZF_DEFAULT_OPTS="\
+  --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D\
+  --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C\
+  --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D"
+
+}
+
+_gen_fzf_default_opts
 
 function find_workspace() {
   if tmux list-sessions &>/dev/null; then
@@ -210,6 +253,8 @@ alias v="nvim ."
 alias w=find_workspace
 alias g=go_to_folder
 alias cd=z
+alias gco="git checkout"
+alias gc="git commit"
 
 # Starship
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
@@ -217,3 +262,7 @@ eval "$(starship init bash)"
 
 # Zoxide
 eval "$(zoxide init bash)"
+. "$HOME/.cargo/env"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

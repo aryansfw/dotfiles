@@ -10,6 +10,13 @@ return {
 			indent = {
 				char = "▏",
 			},
+			whitespace = {
+				highlight = {
+					"CursorLine",
+					"Whitespace",
+				},
+				remove_blankline_trail = false,
+			},
 			scope = {
 				show_start = false,
 				show_end = false,
